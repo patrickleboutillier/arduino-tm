@@ -8,11 +8,11 @@
 class MACHINE {
   private:
     MC _begin ;
-    MC _run(int steps, bool step) ;
+    void _run(long steps, bool step) ;
   public:
     MACHINE(MC begin) ;
-    MC run(int steps) ;
-    MC step(int steps) ;
+    void run(long steps) ;
+    void step(long steps) ;
 } ;
 
 

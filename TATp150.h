@@ -1,17 +1,17 @@
 namespace TATp150 {
 
 
-extern MC b, c ;
+extern MCONFIG b, c ;
 
 
-MC b([](char s){
-  NONE(s, "0>", c) ;
+MCONFIG b([](char s){
+  NONE(s, "0>", &c) ;
 }) ;
-MC c([](char s){
-  NONE(s, "1>", b) ;
+MCONFIG c([](char s){
+  NONE(s, "1>", &b) ;
 }) ;
 
 
-MACHINE m(TAPE::get_tape(), b) ;
+MACHINE m(&b) ;
 
 } ;

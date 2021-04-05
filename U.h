@@ -41,8 +41,8 @@ MCONFIG b([](char s){
   BLANK(s, "", f(&b1, &b1, '%')) ;
 }) ;
 MCONFIG b1([](char s){
-  const char ops[] = {'>', '>', ':', '>', '>', 'D', '>', '>', 'A', '\0'} ;
-  BLANK(s, ops, &anf) ;
+  // const char ops[] = {'>', '>', ':', '>', '>', 'D', '>', '>', 'A', '\0'} ;
+  BLANK(s, ">>:>>D>>A", &anf) ;
 }) ;
 
 // page 154

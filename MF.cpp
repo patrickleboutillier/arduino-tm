@@ -16,7 +16,7 @@ void free_cache(){
 }
 
 
-MC wrap(MC t){
+MC cache(MC t){
     t = MCONFIG::count(t) ;
     if (TEMP[TEMP_IDX] != nullptr){
         delete MCONFIG::uncount(TEMP[TEMP_IDX]) ;
@@ -29,45 +29,45 @@ MC wrap(MC t){
 
 
 MC MF(MC A, MCfM f){
-    return wrap(new MFM(A, f)) ;
+    return cache(new MFM(A, f)) ;
 }
 
 
 MC MF(MC A, char a, MCfMs f){
-    return wrap(new MFMs(A, a, f)) ;
+    return cache(new MFMs(A, a, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, MCfMss f){
-   return wrap(new MFMss(A, a, b, f)) ;
+   return cache(new MFMss(A, a, b, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, MCfMsss f){
-    return wrap(new MFMsss(A, a, b, c, f)) ;
+    return cache(new MFMsss(A, a, b, c, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, char d, MCfMssss f){
-    return wrap(new MFMssss(A, a, b, c, d, f)) ;
+    return cache(new MFMssss(A, a, b, c, d, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, char d, char e, MCfMsssss f){
-    return wrap(new MFMsssss(A, a, b, c, d, e, f)) ;
+    return cache(new MFMsssss(A, a, b, c, d, e, f)) ;
 }
 
 
 MC MF(MC A, MC B, char a, MCfMMs f){
-    return wrap(new MFMMs(A, B, a, f)) ;
+    return cache(new MFMMs(A, B, a, f)) ;
 }
 
 
 MC MF(MC A, MC B, char a, char b, MCfMMss f){
-    return wrap(new MFMMss(A, B, a, b, f)) ;
+    return cache(new MFMMss(A, B, a, b, f)) ;
 }
 
 
 MC MF(MC A, MC B, MC C, char a, char b, MCfMMMss f){
-    return wrap(new MFMMMss(A, B, C, a, b, f)) ;
+    return cache(new MFMMMss(A, B, C, a, b, f)) ;
 }

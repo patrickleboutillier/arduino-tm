@@ -1,36 +1,38 @@
 #include "MACHINE.h"
 #include "MF.h"
-#include "PRINT.h"
+
+#include <Arduino.h>
 
 
 MACHINE::MACHINE(MC begin) : _begin(begin) {
 }
 
 
-MC MACHINE::run(int steps){
+void MACHINE::run(long steps){
   return _run(steps, false) ;
 }
 
 
-MC MACHINE::step(int steps){
+void MACHINE::step(long steps){
   return _run(steps, true) ;
 }
 
 
-MC MACHINE::_run(int steps, bool step){
+void MACHINE::_run(long steps, bool step){
   int n = 0 ;
   MC mc = _begin->clone() ;
 
   while (1) {
     n++ ;
     if (n >= steps){
-      PRINT::print(n) ;
-      TAPE::get_tape()->print("?") ;
-      return mc ;
+      Serial.print(n) ;
+      TAPE::get_tape()->print() ;
+      delete MCONFIG::uncount(mc) ;
+      return ;
     }
     if (step){
-      PRINT::print(n) ;
-      TAPE::get_tape()->print("?") ;
+      Serial.print(n) ;
+      TAPE::get_tape()->print() ;
       stats() ; 
     }
 

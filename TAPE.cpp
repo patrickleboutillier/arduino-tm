@@ -1,8 +1,7 @@
 #include "TAPE.h"
-#include "PRINT.h"
-
 #include "MCONFIG.h"
 
+#include <Arduino.h>
 
 TAPE instance ;
 
@@ -29,10 +28,10 @@ void TAPE::blank(){
 
 void TAPE::init(const char *tape){
   blank() ;
-  for (int i = 0 ; tape[i] != '\0' ; i++){
-    _squares[_pos+i] = tape[i] ;
-    _max_pos = _pos+i ;
-  }  
+  strcpy_P(_squares+1, tape) ;
+  int len = strlen(tape) ;
+  _squares[len+1] = ' ' ;
+  _max_pos = strlen(tape) ;
 }
 
 
@@ -58,22 +57,21 @@ char TAPE::scan(){
 }
 
 
-void TAPE::print(const char *mc){
+void TAPE::print(){
   char x = _squares[_pos] ;
   _squares[_pos] = '\0' ;
-  PRINT::print("[") ;
-  PRINT::print(_squares) ;
-  PRINT::print(x) ;
-  PRINT::print("/") ;
-  PRINT::print(mc) ;
+  Serial.print(F("[")) ;
+  Serial.print(_squares) ;
+  Serial.print(x) ;
+  Serial.print(F("/")) ;
   _squares[_pos] = x ;
 
   if (_max_pos > _pos){
     char m = _squares[_max_pos] ;
     _squares[_max_pos] = '\0' ;
-    PRINT::print(_squares + _pos + 1) ;
+    Serial.print(_squares + _pos + 1) ;
     _squares[_max_pos] = m ;
   }
 
-  PRINT::print("]\n") ;
+  Serial.print(F("]\n")) ;
 }

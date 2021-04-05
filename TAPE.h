@@ -2,7 +2,7 @@
 #define TAPE_H
 
 
-#define TAPE_LEN 256
+#define TAPE_LEN 320
 
 
 class TAPE {
@@ -17,7 +17,7 @@ class TAPE {
     void init(const char *tape) ;
     bool apply_ops(const char *ops) ;
     char scan() ;
-    void print(const char *mc) ;
+    void print() ;
 } ;
 
 

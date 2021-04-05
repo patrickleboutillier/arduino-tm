@@ -2,7 +2,6 @@
 #define MCONFIG_H
 
 #include "TAPE.h"
-#include "PRINT.h"
 
 
 // Symbol specifiers

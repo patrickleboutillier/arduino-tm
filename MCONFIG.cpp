@@ -1,18 +1,20 @@
 #include "MCONFIG.h"
-#include <string.h>
 
+#include <Arduino.h>
 
 #define MAX(a,b) ((a) > (b) ? a : b)
+
 
 
 long NB_MCONFIG = 0 ;
 long MAX_MCONFIG = 0 ;
 long SIZE_MCONFIG = 0 ;
 long MAX_SIZE_MCONFIG = 0 ;
-
+/*
 #define STATS_SIZE 32
-//char STATS[STATS_SIZE] ;
-//char MAX_STATS[STATS_SIZE] ;
+char STATS[STATS_SIZE] ;
+char MAX_STATS[STATS_SIZE] ;
+*/
 
 
 MCONFIG::MCONFIG(MCf f){
@@ -100,22 +102,22 @@ int freeRAM(){
 
 
 void stats(){
-  PRINT::print(NB_MCONFIG) ;
-  PRINT::print(F(" MCONFIG (max:")) ;
-  PRINT::print(MAX_MCONFIG) ; 
-  PRINT::print(F(", max size:")) ;
-  PRINT::print(MAX_SIZE_MCONFIG) ; 
-  //PRINT::print(", histo:")  ;
+  Serial.print(NB_MCONFIG) ;
+  Serial.print(F(" MCONFIG (max:")) ;
+  Serial.print(MAX_MCONFIG) ; 
+  Serial.print(F(", max size:")) ;
+  Serial.print(MAX_SIZE_MCONFIG) ; 
+  //Serial.print(", histo:")  ;
   //for (int i = 0 ; i < STATS_SIZE ; i++){
   //  if (MAX_STATS[i] != 0){
-  //      PRINT::print((int)MAX_STATS[i]) ;
-  //      PRINT::print("@") ;
-  //      PRINT::print(i)  ;
-  //      PRINT::print(",") ;
+  //      Serial.print((int)MAX_STATS[i]) ;
+  //      Serial.print("@") ;
+  //      Serial.print(i)  ;
+  //      Serial.print(",") ;
   //  }  
   //}
-  PRINT::print("), ") ;
-  PRINT::print(F("Free RAM: ")) ;
-  PRINT::print(freeRAM()) ;
-  PRINT::print("\n") ;
+  Serial.print(F("), ")) ;
+  Serial.print(F("Free RAM: ")) ;
+  Serial.print(freeRAM()) ;
+  Serial.print(F("\n")) ;
 }
