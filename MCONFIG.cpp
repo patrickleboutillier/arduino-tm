@@ -5,7 +5,6 @@
 #define MAX(a,b) ((a) > (b) ? a : b)
 
 
-
 long NB_MCONFIG = 0 ;
 long MAX_MCONFIG = 0 ;
 long SIZE_MCONFIG = 0 ;
@@ -19,6 +18,7 @@ char MAX_STATS[STATS_SIZE] ;
 
 MCONFIG::MCONFIG(MCf f){
   this->f = (MCf)f ;
+  orphan = false ;
 } ;
 
 
@@ -28,11 +28,15 @@ int MCONFIG::size(){
 
 
 MC MCONFIG::clone(){
-  return count(new MCONFIG((MCf)f)) ;
+  return this ;
 }
 
 
 MCONFIG::~MCONFIG(){
+} ;
+
+
+void MCONFIG::dispose(){
 } ;
 
 
@@ -64,7 +68,7 @@ MC MCONFIG::operator()(char s){
 MC MCONFIG::move(MC mc, char s){
   MC o = mc ;
   MC n = (*o)(s) ;
-  delete uncount(o) ;
+  o->dispose() ;
   return n ;
 }
 

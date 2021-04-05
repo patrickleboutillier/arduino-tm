@@ -27,7 +27,7 @@ void MACHINE::_run(long steps, bool step){
     if (n >= steps){
       Serial.print(n) ;
       TAPE::get_tape()->print() ;
-      delete MCONFIG::uncount(mc) ;
+      mc->dispose() ;
       return ;
     }
     if (step){
@@ -38,6 +38,5 @@ void MACHINE::_run(long steps, bool step){
 
     char s = TAPE::get_tape()->scan() ;
     mc = MCONFIG::move(mc, s) ;
-    free_cache() ;
   }
 }

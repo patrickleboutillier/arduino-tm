@@ -31,23 +31,24 @@ typedef MC(*MCf)(char) ;
 class MCONFIG {
   protected:
     MCf f ;
+    bool orphan ;
   public:
     MCONFIG(MCf f) ;
     virtual int size() ;
     virtual MC clone() ;
     virtual ~MCONFIG() ;
+    virtual void dispose() ;
     static bool matches(char ss, char s) ;
     virtual MC operator()(char s) ;
     static MC move(MC mc, char s) ;
     static MC count(MC mc) ;
     static MC uncount(MC mc) ;
+    void set_orphan(){ orphan = true ; }
+    void reset_orphan(){ orphan = false ; }
+    bool get_orphan(){ return orphan ; }
 } ;
 
 
-extern long NB_MCONFIG ;
-extern long MAX_MCONFIG ;
-extern long SIZE_MCONFIG ;
-extern long MAX_SIZE_MCONFIG ;
 extern void stats() ;
 
 

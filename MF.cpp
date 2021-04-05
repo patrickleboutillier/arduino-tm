@@ -1,73 +1,54 @@
 #include "MF.h"
 
 
-#define NB_TEMP 2
-MC TEMP[NB_TEMP] = {nullptr, nullptr} ;
-int TEMP_IDX = 0 ;
-
-
-void free_cache(){
-    for (int i = 0 ; i < NB_TEMP ; i++){
-        if (TEMP[i] != nullptr){
-            delete MCONFIG::uncount(TEMP[i]) ;
-            TEMP[i] = nullptr ;
-        }
-    }
-}
-
-
-MC cache(MC t){
+MC orphan(MC t){
+    t->set_orphan() ;
     t = MCONFIG::count(t) ;
-    if (TEMP[TEMP_IDX] != nullptr){
-        delete MCONFIG::uncount(TEMP[TEMP_IDX]) ;
-    }
-    TEMP[TEMP_IDX] = t ;
-    TEMP_IDX = (TEMP_IDX + 1) % NB_TEMP ;
 
     return t ;
 }
 
 
 MC MF(MC A, MCfM f){
-    return cache(new MFM(A, f)) ;
+    return orphan(new MFM(A, f)) ;
 }
 
 
 MC MF(MC A, char a, MCfMs f){
-    return cache(new MFMs(A, a, f)) ;
+    return orphan(new MFMs(A, a, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, MCfMss f){
-   return cache(new MFMss(A, a, b, f)) ;
+   return orphan(new MFMss(A, a, b, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, MCfMsss f){
-    return cache(new MFMsss(A, a, b, c, f)) ;
+    return orphan(new MFMsss(A, a, b, c, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, char d, MCfMssss f){
-    return cache(new MFMssss(A, a, b, c, d, f)) ;
+    return orphan(new MFMssss(A, a, b, c, d, f)) ;
 }
 
 
 MC MF(MC A, char a, char b, char c, char d, char e, MCfMsssss f){
-    return cache(new MFMsssss(A, a, b, c, d, e, f)) ;
+    return orphan(new MFMsssss(A, a, b, c, d, e, f)) ;
 }
 
 
 MC MF(MC A, MC B, char a, MCfMMs f){
-    return cache(new MFMMs(A, B, a, f)) ;
+    return orphan(new MFMMs(A, B, a, f)) ;
 }
 
 
 MC MF(MC A, MC B, char a, char b, MCfMMss f){
-    return cache(new MFMMss(A, B, a, b, f)) ;
+    return orphan(new MFMMss(A, B, a, b, f)) ;
 }
 
 
 MC MF(MC A, MC B, MC C, char a, char b, MCfMMMss f){
-    return cache(new MFMMMss(A, B, C, a, b, f)) ;
+    return orphan(new MFMMMss(A, B, C, a, b, f)) ;
 }

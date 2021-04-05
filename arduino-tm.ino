@@ -26,9 +26,8 @@ void setup(){
   TAPE::get_tape()->init(TATp150SD) ;
   Serial.print(F("U(TATp150) run:\t")) ;
   MACHINE m(&U::b) ;
-  m.run(50000) ;
+  m.run(65000) ;
 
-  free_cache() ;
   stats() ;
 }
 
