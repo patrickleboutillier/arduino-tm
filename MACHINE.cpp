@@ -8,34 +8,30 @@ MACHINE::MACHINE(MC begin) : _begin(begin) {
 }
 
 
-void MACHINE::run(long steps){
-  return _run(steps, false) ;
+void MACHINE::run(long steps, void(*callback)(long)){
+  return _run(steps, callback, false) ;
 }
 
 
-void MACHINE::step(long steps){
-  return _run(steps, true) ;
+void MACHINE::step(long steps, void(*callback)(long)){
+  return _run(steps, callback, true) ;
 }
 
 
-void MACHINE::_run(long steps, bool step){
-  int n = 0 ;
+void MACHINE::_run(long steps, void(*callback)(long), bool step){
+  long n = 0 ;
   MC mc = _begin->clone() ;
 
   while (1) {
     n++ ;
     if (n >= steps){
-      Serial.print(n) ;
-      TAPE::get_tape()->print() ;
       mc->dispose() ;
+      callback(n) ;
       return ;
     }
-    if (step){
-      Serial.print(n) ;
-      TAPE::get_tape()->print() ;
-      stats() ; 
+    if ((step)||(!(n % 1000))){
+      callback(n) ;
     }
-
     char s = TAPE::get_tape()->scan() ;
     mc = MCONFIG::move(mc, s) ;
   }

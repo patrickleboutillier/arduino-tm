@@ -1,5 +1,5 @@
-#include "MCONFIG.h"
-#include "MFUNCTIONS.h"
+#include "MC.h"
+#include "MFUNC.h"
 
 
 // page 115

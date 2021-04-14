@@ -1,37 +1,46 @@
 #include "TAPE.h"
-#include "MCONFIG.h"
-
+#include "MC.h"
 #include <Arduino.h>
 
-TAPE instance ;
+
+TAPE tape_instance ;
 
 
 TAPE *TAPE::get_tape(){
-  return &instance ;
+  return &tape_instance ;
 }
 
 
+void TAPE::set_callback(void(*callback)()){
+  tape_instance._callback = callback ;
+}
+    
+
 TAPE::TAPE(){
-  blank() ;
+  _callback = nullptr ;
 }
 
 
 void TAPE::blank(){
-  for (int i = 0 ; i < (TAPE_LEN-1) ; i++){
-    _squares[i] = ' ' ;
+  for (int i = 0 ; i < TAPE_LEN ; i++){
+    write(i, ' ') ;
   }
-  _squares[TAPE_LEN-1] = '\0' ;
   _pos = 1 ;
   _max_pos = _pos ;
+
+  if (_callback != nullptr){
+    _callback() ;
+  }
 }
 
 
 void TAPE::init(const char *tape){
   blank() ;
-  strcpy_P(_squares+1, tape) ;
-  int len = strlen(tape) ;
-  _squares[len+1] = ' ' ;
-  _max_pos = strlen(tape) ;
+  int len = strlen_P(tape) ;
+  for (int i = 0 ; i < len ; i++){
+    write(1+i, pgm_read_byte_near(tape + i)) ;
+  }
+  _max_pos = len ;
 }
 
 
@@ -45,33 +54,70 @@ bool TAPE::apply_ops(const char *ops){
         }
         break ;
       case '<': _pos-- ; break ;
-      default: _squares[_pos] = ops[i] ;
+      default: write(_pos, ops[i]) ;
+    }
+    if (_callback != nullptr){
+      _callback() ;
     }
   }
   return true ;
 }
 
 
-char TAPE::scan(){
-  return _squares[_pos] ;
+int TAPE::get_pos(){
+  return _pos ;
 }
 
 
-void TAPE::print(){
-  char x = _squares[_pos] ;
-  _squares[_pos] = '\0' ;
+int TAPE::get_max_pos(){
+  return _max_pos ;
+}
+
+
+char TAPE::scan(){
+  return read(_pos) ;
+}
+
+
+#define BUF_LEN 16
+void TAPE::print(bool nl){
+  char buf[BUF_LEN] ;
+  int buf_idx = 0 ;
   Serial.print(F("[")) ;
-  Serial.print(_squares) ;
-  Serial.print(x) ;
-  Serial.print(F("/")) ;
-  _squares[_pos] = x ;
-
-  if (_max_pos > _pos){
-    char m = _squares[_max_pos] ;
-    _squares[_max_pos] = '\0' ;
-    Serial.print(_squares + _pos + 1) ;
-    _squares[_max_pos] = m ;
+  int i ;
+  for ( i = 0 ; i <= _max_pos ; i++){
+    buf[buf_idx++] = read(i) ;
+    if (_pos == i){
+      buf[buf_idx++] = '/' ;
+    }
+    if (buf_idx >= (BUF_LEN-2)){
+      buf[buf_idx] = '\0' ;
+      Serial.print(buf) ;
+      buf_idx = 0 ;
+    }
   }
+  if (_pos == i){
+      buf[buf_idx++] = '/' ;
+  }
+  buf[buf_idx] = '\0' ;
+  Serial.print(buf) ;
+  Serial.print(F("]")) ;
+  if (nl){
+    Serial.print(F("\n")) ;
+  }
+}
 
-  Serial.print(F("]\n")) ;
+
+char TAPE::read(int addr){
+  return _cells[addr] ;
+}
+
+
+void TAPE::read(int addr, char *dst, int len){
+  strncat(dst, _cells + addr, len) ; 
+}
+
+
+void TAPE::write(int addr, char val){
+  _cells[addr] = val ;
 }

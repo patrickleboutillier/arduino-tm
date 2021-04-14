@@ -1,5 +1,5 @@
-#ifndef FUNCLIB_H
-#define FUNCLIB_H
+#ifndef MFUNC_H
+#define MFUNC_H
 
 #include "MF.h"
 

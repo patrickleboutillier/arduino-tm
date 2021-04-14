@@ -2,7 +2,7 @@
 #define MF_H
 
 
-#include "MCONFIG.h"
+#include "MC.h"
 
 
 // Types for the different functions

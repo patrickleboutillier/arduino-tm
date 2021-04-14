@@ -2,17 +2,17 @@
 #define MACHINE_H
 
 #include "TAPE.h"
-#include "MCONFIG.h"
+#include "MC.h"
 
 
 class MACHINE {
   private:
     MC _begin ;
-    void _run(long steps, bool step) ;
+    void _run(long steps, void(*callback)(long), bool step) ;
   public:
     MACHINE(MC begin) ;
-    void run(long steps) ;
-    void step(long steps) ;
+    void run(long steps, void(*callback)(long)) ;
+    void step(long steps, void(*callback)(long)) ;
 } ;
 
 

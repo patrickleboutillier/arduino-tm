@@ -1,5 +1,5 @@
-#ifndef MCONFIG_H
-#define MCONFIG_H
+#ifndef MC_H
+#define MC_H
 
 #include "TAPE.h"
 
@@ -18,7 +18,9 @@
 #define ANY(s, ops, fmc)         _RULE(_ANY, s, ops, fmc)
 #define SYM(s, a, ops, fmc)      _RULE(_SYM(a), s, ops, fmc)
 #define NOT(s, a, ops, fmc)      _RULE(_NOT(a), s, ops, fmc)
-#define DONE(s)                   { PRINT::print(s) ; PRINT::print("\n") ; }
+
+// Used to declare MCONFIGs
+#define DEF_MCONFIG(n, f) PROGMEM const char _##n[] = #n ; MCONFIG n(_##n, f) ;
 
 
 class MCONFIG ;
@@ -30,10 +32,13 @@ typedef MC(*MCf)(char) ;
 
 class MCONFIG {
   protected:
+    const char *name ;
     MCf f ;
     bool orphan ;
   public:
     MCONFIG(MCf f) ;
+    MCONFIG(const char *name, MCf f) ;
+    const char *get_name() ;
     virtual int size() ;
     virtual MC clone() ;
     virtual ~MCONFIG() ;
