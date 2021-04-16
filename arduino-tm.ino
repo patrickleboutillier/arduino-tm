@@ -1,6 +1,6 @@
 #include "TAPE.h"
 #include "DISP.h"
-#include "MCONFIG.h"
+#include "MC.h"
 
 //#include "TATp81.h"
 //#include "TATp81f.h"
@@ -53,7 +53,6 @@ void loop(){
   char s = TAPE::get_tape()->scan() ;
   // Update display members
   DISP::get_display()->set_cur_mc_name(CUR_MC->get_name()) ;
-
   CUR_MC = MCONFIG::move(CUR_MC, s) ;
 }
 

@@ -9,14 +9,14 @@ MC con(MC C, char a), con1(MC C, char a), con2(MC C, char a) ;
 
 // page 152
 MC con(MC C, char a){
-  return MF(C, a, [](MC C, char a, char s){
+  return MF(PSTR("con"), C, a, [](MC C, char a, char s){
     NOT(s, 'A', ">>", con(C, a)) ;
     const char ops[] = {'<', a, '>', '\0'} ;
     SYM(s, 'A', ops,  con1(C, a)) ;
   }) ;
 }
 MC con1(MC C, char a){
-  return MF(C, a, [](MC C, char a, char s){
+  return MF(PSTR("con1"), C, a, [](MC C, char a, char s){
     const char ops[] = {'>', a, '>', '\0'} ;
     SYM(s, 'A', ops, con1(C, a)) ;
     SYM(s, 'D', ops, con2(C, a)) ;
@@ -25,7 +25,7 @@ MC con1(MC C, char a){
   }) ;
 } 
 MC con2(MC C, char a){
-  return MF(C, a, [](MC C, char a, char s){
+  return MF(PSTR("con2"), C, a, [](MC C, char a, char s){
     const char ops[] = {'>', a, '>', '\0'} ;
     SYM(s, 'C', ops,  con2(C, a)) ;
     NOT(s, 'C', ">>", C) ;

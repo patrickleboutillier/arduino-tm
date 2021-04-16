@@ -1,5 +1,5 @@
 #include "DISP.h"
-#include "MCONFIG.h"
+#include "MC.h"
 #include "SSD1306Ascii.h"
 #include "SSD1306AsciiAvrI2c.h"
 
@@ -67,7 +67,9 @@ void DISP::show(){
     oled.print("     ^") ;
     // _cur_mc_name is in Flash!
     strncpy_P(buf, _cur_mc_name, 5) ;
-    // sprintf(buf, "%-5s", _cur_mc_name) ;
+    for (int i = strlen(buf) ; i <= 5 ; i++){
+      strcat(buf, " ") ;
+    }
     oled.println(buf) ;
       
     oled.set1X() ;
